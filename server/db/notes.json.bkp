@@ -1,0 +1,10 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "Note 1",
+      "body": "Bar",
+      "createdAt":1448649671080
+    }
+  ]
+}
