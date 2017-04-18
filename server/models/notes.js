@@ -1,18 +1,17 @@
-const { type, find, findIndex, propEq } = require('ramda');
-const { merge } = require('ramda');
+const { merge, type, find, findIndex, propEq } = require('ramda');
 
 const notes = [
-  {
-    id: 1,
-    title: 'Note 1',
-    body: 'Foo Bar Baz',
-    createdAt: 1448649671080,
-  },
   {
     id: 2,
     title: 'Note 2',
     body: 'Bax Quum',
     createdAt: 1448649681080,
+  },
+  {
+    id: 1,
+    title: 'Note 1',
+    body: 'Foo Bar Baz',
+    createdAt: 1448649671080,
   },
 ];
 
@@ -29,7 +28,7 @@ const note = {
     return delay(1, find(propEq('id', parseInt(id)), notes));
   },
   create: note => {
-    notes.push(note);
+    notes.unshift(note);
     return delay(1, true);
   },
   update: (id, updates) => {
@@ -41,7 +40,6 @@ const note = {
   },
   delete: id => {
     const idx = findIndex(propEq('id', parseInt(id)), notes);
-    console.log('DELETING INDEX...', idx);
     if (idx === -1) return delay(1, false);
 
     notes.splice(idx, 1);
