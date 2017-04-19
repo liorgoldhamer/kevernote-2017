@@ -4,7 +4,7 @@ const { route, crud } = require('./route');
 const { pipe } = require('ramda');
 const notes = require('./models/notes');
 const { corsHeaders, corsRoute } = require('./cors');
-const log = require('./log');
+// const log = require('./log');
 
 const port = 3001;
 
