@@ -20,7 +20,7 @@ export default class NoteList extends Component {
         </div>
         <ul className="note-list__container">
           {
-            notes.map(function(note){
+            notes.map(function(note, index){
               return (
                 <li onClick={() => this.props.selectNote(note)} className={"note-preview " + this.selectedClass(note)}>
                   <NotePreview {...note}/>

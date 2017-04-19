@@ -9,6 +9,7 @@ export default class App extends Component {
     super(props);
     this.selectNote = this.selectNote.bind(this);
     this.updateNoteProperty = this.updateNoteProperty.bind(this);
+    this.addNewNote = this.addNewNote.bind(this);
 
     this.state = {
       notes: []
@@ -22,6 +23,22 @@ export default class App extends Component {
 
   selectNote(note) {
     let currentState = this.state;
+    currentState.selectedNote = note;
+
+    this.setState(currentState);
+  }
+
+  addNewNote() {
+    let notes = this.state.notes;
+    let id = notes[0].id + 1
+    let note = {id: id, title: "New Note", body: "Write your note here", createdAt: Date()};
+    api.notes.create(note);
+
+    notes.unshift(note);
+    debugger
+
+    let currentState = this.state;
+    currentState.notes = notes;
     currentState.selectedNote = note;
 
     this.setState(currentState);
@@ -42,7 +59,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <ActionBar/>
+        <ActionBar addNewNote={this.addNewNote}/>
         <NoteList notes={this.state.notes} selectedNote={this.state.selectedNote} selectNote={this.selectNote}/>
         <NoteView {...this.state.selectedNote} updateNoteProperty={this.updateNoteProperty}/>
       </div>

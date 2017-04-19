@@ -9,7 +9,7 @@ export default class ActionBar extends Component {
     return (
       <nav className="action-bar">
         <div className="action-bar__logo"></div>
-        <button className="action-bar__new">+</button>
+        <button className="action-bar__new" onClick={this.props.addNewNote}>+</button>
       </nav>
     );
   }
