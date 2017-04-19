@@ -1,40 +1,50 @@
 import React, { Component } from 'react';
-// import R from 'ramda';
-// import api from './api';
+import ActionBar from './ActionBar';
+import NoteList from './NoteList';
+import NoteView from './NoteView';
+import api from './api';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.selectNote = this.selectNote.bind(this);
+    this.updateNoteProperty = this.updateNoteProperty.bind(this);
+
     this.state = {
-      something: false,
-      // sets some initial state
-    };
-
-    this.doSomething = this.doSomething.bind(this);
+      notes: []
+    }
+    api.notes.all().then(notes => this.setNotes(notes));
   }
 
-  componentDidMount() {
-    // when mount
+  setNotes(notes) {
+    this.setState({ notes: notes, selectedNote: notes[0]});
   }
 
-  doSomething() {
-    // sets some new state
-    this.setState({ something: !this.state.something });
+  selectNote(note) {
+    let currentState = this.state;
+    currentState.selectedNote = note;
+
+    this.setState(currentState);
+  }
+
+  updateNoteProperty(id, key, value) {
+    let currentState = this.state;
+    currentState.selectedNote[key] = value;
+    currentState.notes.map(function(note, index){
+      if (note.id === id) {
+        note[key] = value;
+      }
+    });
+
+    this.setState(currentState);
   }
 
   render() {
-    const {
-      something,
-      // gets some vars from state
-    } = this.state;
-
     return (
       <div>
-        <h1>
-          Hello Kevernote 2017
-        </h1>
-        <button onClick={this.doSomething}>Do something</button>
-        {something && <h2>I did something!</h2>}
+        <ActionBar/>
+        <NoteList notes={this.state.notes} selectedNote={this.state.selectedNote} selectNote={this.selectNote}/>
+        <NoteView {...this.state.selectedNote} updateNoteProperty={this.updateNoteProperty}/>
       </div>
     );
   }
