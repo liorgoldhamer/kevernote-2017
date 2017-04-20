@@ -106,7 +106,7 @@ export default class App extends Component {
     }
 
     return (
-      <div>
+      <div className="app">
         <ActionBar addNewNote={this.addNewNote}/>
         <NoteList notes={this.state.notes} selectedNote={this.state.selectedNote} selectNote={this.selectNote}/>
         {noteView}
