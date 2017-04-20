@@ -3,6 +3,8 @@ import ActionBar from './ActionBar';
 import NoteList from './NoteList';
 import NoteView from './NoteView';
 import api from './api';
+import isEmpty from 'ramda/src/isEmpty'
+
 
 export default class App extends Component {
   constructor(props) {
@@ -99,7 +101,7 @@ export default class App extends Component {
 
   render() {
     let noteView = null;
-    if (Object.keys(this.state.selectedNote).length !== 0) {
+    if (!isEmpty(this.state.selectedNote)) {
       noteView = <NoteView status={this.state.selectedNoteStatus} note={this.state.selectedNote} updateNoteProperty={this.updateNoteProperty} deleteNote={this.deleteNote} saveNote={this.saveNote}/>;
     }
 
