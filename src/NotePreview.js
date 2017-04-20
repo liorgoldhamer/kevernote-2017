@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TimeAgo from 'react-timeago';
 
 export default class NotePreview extends Component {
   constructor(props) {
@@ -18,11 +19,13 @@ export default class NotePreview extends Component {
   }
 
   render() {
-    const {id, title} = this.props;
+    const {id, title, createdAt} = this.props;
 
     return (
       <a className="note-preview__link" href={"#notes/" + id}>
-        <span className="note-preview__time">26 minutes ago</span>
+        <span className="note-preview__time">
+          <TimeAgo date={createdAt} />
+        </span>
         <h2 className="note-preview__title">{title}</h2>
         <p className="note-preview__body">{this.bodyPreview()}</p>
       </a>
