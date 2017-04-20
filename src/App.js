@@ -22,7 +22,10 @@ export default class App extends Component {
   }
 
   setNotes(notes) {
-    this.setState({ notes: notes, selectedNote: notes[0], selectedNoteStatus: "Saved"});
+    var currentState = this.state;
+    currentState.notes = notes;
+    currentState.selectedNote = (notes.length > 0) ? notes[0] : {}
+    this.setState(currentState);
   }
 
   selectNote(note) {
@@ -35,7 +38,7 @@ export default class App extends Component {
 
   addNewNote() {
     let notes = this.state.notes;
-    let id = notes[0].id + 1
+    let id = (notes.length > 0) ? notes[0].id + 1 : 1
     let note = {id: id, title: "New Note", body: "Write your note here", createdAt: Date()};
     api.notes.create(note);
 
@@ -59,10 +62,10 @@ export default class App extends Component {
       }
     })
 
-
     notes.splice(noteIndex, 1);
     api.notes.delete(id);
-    this.selectNote(notes[0]);
+    let selectedNote = (notes.length > 0) ? notes[0] : {}
+    this.selectNote(selectedNote);
 
     this.setState(currentState);
   }
@@ -95,11 +98,16 @@ export default class App extends Component {
   }
 
   render() {
+    let noteView = null;
+    if (Object.keys(this.state.selectedNote).length !== 0) {
+      noteView = <NoteView status={this.state.selectedNoteStatus} note={this.state.selectedNote} updateNoteProperty={this.updateNoteProperty} deleteNote={this.deleteNote} saveNote={this.saveNote}/>;
+    }
+
     return (
       <div>
         <ActionBar addNewNote={this.addNewNote}/>
         <NoteList notes={this.state.notes} selectedNote={this.state.selectedNote} selectNote={this.selectNote}/>
-        <NoteView status={this.state.selectedNoteStatus} note={this.state.selectedNote} updateNoteProperty={this.updateNoteProperty} deleteNote={this.deleteNote} saveNote={this.saveNote}/>
+        {noteView}
       </div>
     );
   }
